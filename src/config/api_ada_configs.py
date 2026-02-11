@@ -132,6 +132,9 @@ class ModelTaskConfig(ConfigBase):
     lpmm_rdf_build: TaskConfig
     """LPMM RDF构建模型配置"""
 
+    tts_instruct: TaskConfig = field(default_factory=TaskConfig)
+    """TTS instruct 生成模型配置（用于生成情绪/语速/停顿指令）"""
+
     def get_task(self, task_name: str) -> TaskConfig:
         """获取指定任务的配置"""
         if hasattr(self, task_name):

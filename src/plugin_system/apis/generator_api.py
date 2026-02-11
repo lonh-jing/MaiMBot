@@ -21,6 +21,8 @@ from src.chat.utils.utils import process_llm_response
 from src.chat.replyer.replyer_manager import replyer_manager
 from src.plugin_system.base.component_types import ActionInfo
 from src.chat.logger.plan_reply_logger import PlanReplyLogger
+from src.config.config import model_config
+from src.llm_models.utils_model import LLMRequest
 
 if TYPE_CHECKING:
     from src.common.data_models.info_data_model import ActionPlannerInfo
@@ -323,4 +325,35 @@ async def generate_response_custom(
             return None
     except Exception as e:
         logger.error(f"[GeneratorAPI] 生成自定义回复时出错: {e}")
+        return None
+
+
+async def generate_tts_instruct(
+    prompt: str,
+    request_type: str = "tts_instruct",
+    temperature: Optional[float] = None,
+    max_tokens: Optional[int] = None,
+) -> Optional[str]:
+    """
+    生成 TTS 表演指令（instruct），使用独立的 model_task_config.tts_instruct 模型组。
+
+    设计目标：
+    - 不走 replyer（避免上下文/人设污染）
+    - 仅基于 prompt 生成短文本，便于在 WebUI 的 model_config.toml 单独配置模型
+    """
+    try:
+        task_cfg = model_config.model_task_config.get_task("tts_instruct")
+        if not task_cfg.model_list:
+            logger.error("[GeneratorAPI] tts_instruct 的 model_list 为空，请在 model_config.toml 配置 [model_task_config.tts_instruct]")
+            return None
+
+        llm = LLMRequest(model_set=task_cfg, request_type=request_type)
+        content, _meta = await llm.generate_response_async(
+            prompt=prompt,
+            temperature=temperature if temperature is not None else task_cfg.temperature,
+            max_tokens=max_tokens if max_tokens is not None else task_cfg.max_tokens,
+        )
+        return content.strip() if content else None
+    except Exception as e:
+        logger.error(f"[GeneratorAPI] 生成 tts_instruct 失败: {e}", exc_info=True)
         return None
