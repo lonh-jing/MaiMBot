@@ -323,6 +323,7 @@ run_pet.bat
 !/plugins/deep_think
 !/plugins/MaiBot_MCPBridgePlugin
 !/plugins/ChatFrequency/
+!/plugins/tts_voice_plugin
 !/plugins/__init__.py
 
 config.toml
