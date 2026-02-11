@@ -1,157 +1,154 @@
-# 麦麦！MaiMBot (编辑中) 
-
-
 <div align="center">
-
-![Python Version](https://img.shields.io/badge/Python-3.9+-blue)
-![License](https://img.shields.io/github/license/SengokuCola/MaiMBot)
-![Status](https://img.shields.io/badge/状态-开发中-yellow)
-
+  <h1>麦麦 MaiBot <sub><small>MaiCore</small></sub></h1>
+  
+  <!-- Badges Row -->
+  <p>
+    <img src="https://img.shields.io/badge/Python-3.10+-blue" alt="Python Version">
+    <img src="https://img.shields.io/github/license/Mai-with-u/MaiBot?label=%E5%8D%8F%E8%AE%AE" alt="License">
+    <img src="https://img.shields.io/badge/状态-开发中-yellow" alt="Status">
+    <img src="https://img.shields.io/github/contributors/Mai-with-u/MaiBot.svg?style=flat&label=%E8%B4%A1%E7%8C%AE%E8%80%85" alt="Contributors">
+    <img src="https://img.shields.io/github/forks/Mai-with-u/MaiBot.svg?style=flat&label=%E5%88%86%E6%94%AF%E6%95%B0" alt="Forks">
+    <img src="https://img.shields.io/github/stars/Mai-with-u/MaiBot?style=flat&label=%E6%98%9F%E6%A0%87%E6%95%B0" alt="Stars">
+    <a href="https://deepwiki.com/DrSmoothl/MaiBot"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+  </p>
 </div>
 
-## 📝 项目简介
+<br>
 
-**🍔麦麦是一个基于大语言模型的智能QQ群聊机器人**
+<!-- Mascot on the Right (Float) -->
+<img src="depends-data/maimai-v2.png" align="right" width="40%" alt="MaiBot Character" style="margin-left: 20px; margin-bottom: 20px;">
 
-- 基于 nonebot2 框架开发
-- LLM 提供对话能力
-- MongoDB 提供数据持久化支持
-- NapCat 作为QQ协议端支持
+## 🎉 介绍
 
-**最新版本: v0.5.***
+**🍔 MaiCore 是一个基于大语言模型的可交互智能体**
+
+MaiBot 不仅仅是一个机器人，她致力于成为一个活跃在 QQ 群聊中的“生命体”。她不追求完美，但追求真实。
+
+- 💭 **拟人构建**：使用自然语言风格构建 Prompt，回复贴近人类习惯。
+- 🎭 **行为规划**：懂得在合适的时间说话，使用合适的动作。
+- 🧠 **表达学习**：模仿群友的说话风格，学习黑话，不断进化。
+- 🔌 **插件系统**：提供强大的 API 和事件系统，无限扩展可能。
+- 💝 **情感表达**：拥有独立的情绪系统和表情包互动能力。
+
+### 🚀 快速导航
+<p>
+  <a href="https://www.bilibili.com/video/BV1amAneGE3P">🌟 演示视频</a> &nbsp;|&nbsp; 
+  <a href="#-更新和安装">📦 快速入门</a> &nbsp;|&nbsp; 
+  <a href="#-部署教程">📃 核心文档</a> &nbsp;|&nbsp; 
+  <a href="#-讨论与社区">💬 加入社区</a>
+</p>
+
+<!-- Clear float to ensure subsequent content starts below the image area if text is short -->
+<br clear="both">
 
 <div align="center">
-<a href="https://www.bilibili.com/video/BV1amAneGE3P" target="_blank">
-    <img src="docs/video.png" width="300" alt="麦麦演示视频">
+  <br>
+  <h3>🎥 精彩演示</h3>
+  <a href="https://www.bilibili.com/video/BV1amAneGE3P" target="_blank">
+    <picture>
+      <source media="(max-width: 600px)" srcset="depends-data/video.png" width="100%">
+      <img src="depends-data/video.png" width="60%" alt="麦麦演示视频" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    </picture>
     <br>
-    👆 点击观看麦麦演示视频 👆
-
-</a>
+    <small>👆 点击观看麦麦演示视频 👆</small>
+  </a>
 </div>
 
-> ⚠️ **注意事项**
-> - 项目处于活跃开发阶段，代码可能随时更改
-> - 文档未完善，有问题可以提交 Issue 或者 Discussion
-> - QQ机器人存在被限制风险，请自行了解，谨慎使用
-> - 由于持续迭代，可能存在一些已知或未知的bug
-> - 由于开发中，可能消耗较多token
+---
 
-**交流群**: 766798517 一群人较多，建议加下面的（开发和建议相关讨论）不一定有空回复，会优先写文档和代码
-**交流群**: 571780722 另一个群（开发和建议相关讨论）不一定有空回复，会优先写文档和代码
-**交流群**: 1035228475 另一个群（开发和建议相关讨论）不一定有空回复，会优先写文档和代码
+## 🔥 更新和安装
 
-## 
-<div align="left">
-<h2>📚 文档        ⬇️ 快速开始使用麦麦 ⬇️</h2>
-</div>
+> **最新版本: v0.12.2** ([📄 更新日志](changelogs/changelog.md))
 
-### 部署方式
+- **下载**: 前往 [Release](https://github.com/MaiM-with-u/MaiBot/releases/) 页面下载最新版本
+- **启动器**: [Mailauncher](https://github.com/MaiM-with-u/mailauncher/releases/) (仅支持 MacOS, 早期开发中)
 
-如果你不知道Docker是什么，建议寻找相关教程或使用手动部署（现在不建议使用docker，更新慢，可能不适配）
+| 分支 | 说明 |
+| :--- | :--- |
+| `main` | ✅ **稳定发布版本 (推荐)** |
+| `dev` | 🚧 开发测试版本 (不稳定) |
+| `classical` | 🛑 经典版本 (停止维护) |
 
-- [🐳 Docker部署指南](docs/docker_deploy.md)
+### 📚 部署教程
+👉 **[🚀 最新版本部署教程](https://docs.mai-mai.org/manual/deployment/mmc_deploy_windows.html)**  
+*(注意：MaiCore 新版本部署方式与旧版本不兼容)*
 
+> [!WARNING]
+> - ⚠️ 项目处于活跃开发阶段，API 可能随时调整。
+> - ⚠️ QQ 机器人存在风控风险，请谨慎使用。
+> - ⚠️ AI 模型运行可能消耗较多 Token。
 
-- [📦 手动部署指南 Windows](docs/manual_deploy_windows.md)
+---
 
+## 💬 讨论与社区
 
-- [📦 手动部署指南 Linux](docs/manual_deploy_linux.md)
+我们欢迎所有对 MaiBot 感兴趣的朋友加入！
 
--  📦 Windows 一键傻瓜式部署，请运行项目根目录中的 ```run.bat```，部署完成后请参照后续配置指南进行配置
+| 类别 | 群组 | 说明 |
+| :--- | :--- | :--- |
+| **技术交流** | [麦麦脑电图](https://qm.qq.com/q/RzmCiRtHEW) | 技术交流/答疑 |
+| **技术交流** | [麦麦大脑磁共振](https://qm.qq.com/q/VQ3XZrWgMs) | 技术交流/答疑 |
+| **技术交流** | [麦麦要当VTB](https://qm.qq.com/q/wGePTl1UyY) | 技术交流/答疑 |
+| **闲聊吹水** | [麦麦之闲聊群](https://qm.qq.com/q/JxvHZnxyec) | 仅限闲聊，不答疑 |
+| **插件开发** | [插件开发群](https://qm.qq.com/q/1036092828) | 进阶开发与测试 |
 
-### 配置说明
-- [🎀 新手配置指南](docs/installation_cute.md) - 通俗易懂的配置教程，适合初次使用的猫娘
-- [⚙️ 标准配置指南](docs/installation_standard.md) - 简明专业的配置说明，适合有经验的用户
+---
 
-<div align="left">
-<h3>了解麦麦 </h3>
-</div>
+## 📚 文档
 
-- [项目架构说明](docs/doc1.md) - 项目结构和核心功能实现细节
+> [!NOTE]
+> 部分内容可能更新不够及时，请注意版本对应。
 
-## 🎯 功能介绍
+- **[📚 核心 Wiki 文档](https://docs.mai-mai.org)**: 最全面的文档中心，了解麦麦的一切。
 
-### 💬 聊天功能
-- 支持关键词检索主动发言：对消息的话题topic进行识别，如果检测到麦麦存储过的话题就会主动进行发言
-- 支持bot名字呼唤发言：检测到"麦麦"会主动发言，可配置
-- 支持多模型，多厂商自定义配置
-- 动态的prompt构建器，更拟人
-- 支持图片，转发消息，回复消息的识别
-- 错别字和多条回复功能：麦麦可以随机生成错别字，会多条发送回复以及对消息进行reply
+### 🧩 衍生项目
 
-### 😊 表情包功能
-- 支持根据发言内容发送对应情绪的表情包
-- 会自动偷群友的表情包
+- **[MaiCraft](https://github.com/MaiM-with-u/Maicraft)**: 让麦麦陪你玩 Minecraft (早期开发中)。
+- **[MoFox_Bot](https://github.com/MoFox-Studio/MoFox-Core)**: 基于 MaiCore 0.10.0 的增强型 Fork，更稳定更有趣。
 
-### 📅 日程功能
-- 麦麦会自动生成一天的日程，实现更拟人的回复
+---
 
-### 🧠 记忆功能
-- 对聊天记录进行概括存储，在需要时调用，待完善
+## 💡 设计理念 (原始时代的火花)
 
-### 📚 知识库功能
-- 基于embedding模型的知识库，手动放入txt会自动识别，写完了，暂时禁用
+> **千石可乐说：**
+> - 这个项目最初只是为了给牛牛 bot 添加一点额外的功能，但是功能越写越多，最后决定重写。其目的是为了创造一个活跃在 QQ 群聊的"生命体"。目的并不是为了写一个功能齐全的机器人，而是一个尽可能让人感知到真实的类人存在。
+> - 程序的功能设计理念基于一个核心的原则："最像而不是好"。
+> - 如果人类真的需要一个 AI 来陪伴自己，并不是所有人都需要一个完美的，能解决所有问题的"helpful assistant"，而是一个会犯错的，拥有自己感知和想法的"生命形式"。
+> - 代码会保持开源和开放，但个人希望 MaiMbot 的运行时数据保持封闭，尽量避免以显式命令来对其进行控制和调试。我认为一个你无法完全掌控的个体才更能让你感觉到它的自主性，而视其成为一个对话机器。
+> - SengokuCola~~纯编程外行，面向 cursor 编程，很多代码写得不好多多包涵~~已得到大脑升级。
+> *Code is open, but the soul is yours.*
 
-### 👥 关系功能
-- 针对每个用户创建"关系"，可以对不同用户进行个性化回复，目前只有极其简单的好感度（WIP）
-- 针对每个群创建"群印象"，可以对不同群进行个性化回复（WIP）
+---
 
+## 🙋 贡献和致谢
 
+欢迎参与贡献！请先阅读 [贡献指南](docs-src/CONTRIBUTE.md)。
 
-## 开发计划TODO：LIST
+### 🌟 贡献者
 
-规划主线
-0.6.0：记忆系统更新
-0.7.0: 麦麦RunTime
-
-
-- 人格功能：WIP
-- 群氛围功能：WIP
-- 图片发送，转发功能：WIP
-- 幽默和meme功能：WIP的WIP
-- 让麦麦玩mc：WIP的WIP的WIP
-- 兼容gif的解析和保存
-- 小程序转发链接解析
-- 对思考链长度限制
-- 修复已知bug
-- ~~完善文档~~
-- 修复转发
-- ~~config自动生成和检测~~
-- ~~log别用print~~
-- ~~给发送消息写专门的类~~
-- 改进表情包发送逻辑
-- 自动生成的回复逻辑，例如自生成的回复方向，回复风格
-- 采用截断生成加快麦麦的反应速度
-- 改进发送消息的触发
-
-
-## 设计理念
-
-- **千石可乐说：**
-- 这个项目最初只是为了给牛牛bot添加一点额外的功能，但是功能越写越多，最后决定重写。其目的是为了创造一个活跃在QQ群聊的"生命体"。可以目的并不是为了写一个功能齐全的机器人，而是一个尽可能让人感知到真实的类人存在.
-- 程序的功能设计理念基于一个核心的原则："最像而不是好"
-- 主打一个陪伴
-- 如果人类真的需要一个AI来陪伴自己，并不是所有人都需要一个完美的，能解决所有问题的helpful assistant，而是一个会犯错的，拥有自己感知和想法的"生命形式"。
-- 代码会保持开源和开放，但个人希望MaiMbot的运行时数据保持封闭，尽量避免以显式命令来对其进行控制和调试.我认为一个你无法完全掌控的个体才更能让你感觉到它的自主性，而视其成为一个对话机器.
-
-
-## 📌 注意事项
-SengokuCola纯编程外行，面向cursor编程，很多代码史一样多多包涵
-
-> ⚠️ **警告**：本应用生成内容来自人工智能模型，由 AI 生成，请仔细甄别，请勿用于违反法律的用途，AI生成内容不代表本人观点和立场。
-
-## 致谢
-[nonebot2](https://github.com/nonebot/nonebot2): 跨平台 Python 异步聊天机器人框架  
-[NapCat](https://github.com/NapNeko/NapCatQQ): 现代化的基于 NTQQ 的 Bot 协议端实现  
-
-### 贡献者
-
-感谢各位大佬！
-
-<a href="https://github.com/SengokuCola/MaiMBot/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SengokuCola/MaiMBot&time=true" />
+<a href="https://github.com/MaiM-with-u/MaiBot/graphs/contributors">
+  <img alt="contributors" src="https://contrib.rocks/image?repo=MaiM-with-u/MaiBot" />
 </a>
 
+### ❤️ 特别致谢
 
-## Stargazers over time
-[![Stargazers over time](https://starchart.cc/SengokuCola/MaiMBot.svg?variant=adaptive)](https://starchart.cc/SengokuCola/MaiMBot)
+- **[略nd](https://space.bilibili.com/1344099355)**: 🎨 为麦麦绘制精美人设。
+- **[NapCat](https://github.com/NapNeko/NapCatQQ)**: 🚀 现代化的基于 NTQQ 的 Bot 协议实现。
+
+---
+
+## 📊 仓库状态
+
+![Alt](https://repobeats.axiom.co/api/embed/9faca9fccfc467931b87dd357b60c6362b5cfae0.svg "麦麦仓库状态")
+
+### Star 趋势
+[![Star 趋势](https://starchart.cc/MaiM-with-u/MaiBot.svg?variant=adaptive)](https://starchart.cc/MaiM-with-u/MaiBot)
+
+---
+
+## 📌 注意事项 & License
+
+> [!IMPORTANT]
+> 使用前请阅读 [用户协议 (EULA)](EULA.md) 和 [隐私协议](PRIVACY.md)。AI 生成内容请仔细甄别。
+
+**License**: GPL-3.0

@@ -1,23 +1,86 @@
 [project]
-name = "Megbot"
-version = "0.1.0"
-description = "New Bot Project"
+name = "MaiBot"
+version = "0.11.6"
+description = "MaiCore 是一个基于大语言模型的可交互智能体"
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.12.14",
+    "aiohttp-cors>=0.8.1",
+    "colorama>=0.4.6",
+    "faiss-cpu>=1.11.0",
+    "fastapi>=0.116.0",
+    "google-genai>=1.39.1",
+    "jieba>=0.42.1",
+    "json-repair>=0.47.6",
+    "maim-message",
+    "matplotlib>=3.10.3",
+    "msgpack>=1.1.2",
+    "numpy>=2.2.6",
+    "openai>=1.95.0",
+    "pandas>=2.3.1",
+    "peewee>=3.18.2",
+    "pillow>=11.3.0",
+    "pyarrow>=20.0.0",
+    "pydantic>=2.11.7",
+    "pypinyin>=0.54.0",
+    "python-dotenv>=1.1.1",
+    "python-multipart>=0.0.20",
+    "quick-algo>=0.1.3",
+    "rich>=14.0.0",
+    "ruff>=0.12.2",
+    "setuptools>=80.9.0",
+    "structlog>=25.4.0",
+    "toml>=0.10.2",
+    "tomlkit>=0.13.3",
+    "urllib3>=2.5.0",
+    "uvicorn>=0.35.0",
+    "zstandard>=0.25.0",
+]
 
-[tool.nonebot]
-plugins = ["src.plugins.chat"]
-plugin_dirs = ["src/plugins"] 
+
+[tool.uv]
+index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+
 
 [tool.ruff]
-# 设置 Python 版本
-target-version = "py39"
+
+include = ["*.py"]
+
+# 行长度设置
+line-length = 120
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+unfixable = []
+
+# 如果一个变量的名称以下划线开头，即使它未被使用，也不应该被视为错误或警告。
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # 启用的规则
 select = [
-    "E",  # pycodestyle 错误
-    "F",  # pyflakes
-    "I",  # isort
-    "B",  # flake8-bugbear
+    "E", # pycodestyle 错误
+    "F", # pyflakes
+    "B", # flake8-bugbear
 ]
 
-# 行长度设置
-line-length = 88
+ignore = ["E711","E501"]
+
+[tool.ruff.format]
+docstring-code-format = true
+indent-style = "space"
+
+
+# 使用双引号表示字符串
+quote-style = "double"
+
+# 尊重魔法尾随逗号
+# 例如：
+# items = [
+#     "apple",
+#     "banana",
+#     "cherry",
+# ]
+skip-magic-trailing-comma = false
+
+# 自动检测合适的换行符
+line-ending = "auto"

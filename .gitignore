@@ -1,36 +1,71 @@
 data/
+data1/
 mongodb/
 NapCat.Framework.Windows.Once/
+NapCat.Framework.Windows.OneKey/
 log/
+logs/
+out/
+tool_call_benchmark.py
+run_maibot_core.bat
+run_voice.bat
+run_napcat_adapter.bat
+run_ad.bat
+llm_tool_benchmark_results.json
+MaiBot-Napcat-Adapter-main
+MaiBot-Napcat-Adapter
 /test
+/log_debug
 /src/test
+nonebot-maibot-adapter/
+MaiMBot-LPMM
+*.zip
+run_bot.bat
+run_na.bat
+run_all_in_wt.bat
+run.bat
+log_debug/
+NapCat.Shell.Windows.OneKey
+run_amds.bat
+run_none.bat
+docs-mai/
+run.py
 message_queue_content.txt
 message_queue_content.bat
 message_queue_window.bat
 message_queue_window.txt
 queue_update.txt
-memory_graph.gml
 .env
 .env.*
+.cursor
 config/bot_config_dev.toml
 config/bot_config.toml
+config/bot_config.toml.bak
+config/lpmm_config.toml
+config/lpmm_config.toml.bak
+template/compare/bot_config_template.toml
+template/compare/model_config_template.toml
+CLAUDE.md
+MaiBot-Dashboard/
+cloudflare-workers/
+result.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-llm_statistics.txt
+maibot_statistics.html
 mongodb
 napcat
 run_dev.bat
-
+elua.confirmed
 # C extensions
 *.so
+/results
 
 # Distribution / packaging
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -188,14 +223,111 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-.env
 
 # jieba
 jieba.cache
 
-
-# vscode
-/.vscode
+# .vscode
+!.vscode/settings.json
 
 # direnv
 /.direnv
+
+# JetBrains
+.idea
+*.iml
+*.ipr
+
+# PyEnv
+#  If using PyEnv and configured to use a specific Python version locally
+#  a .local-version file will be created in the root of the project to specify the version.
+.python-version
+
+OtherRes.txt
+
+/eula.confirmed
+/privacy.confirmed
+
+logs
+
+.ruff_cache
+
+.vscode
+
+/config/*
+config/old/bot_config_20250405_212257.toml
+temp/
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+src/chat/focus_chat/working_memory/test/test1.txt
+src/chat/focus_chat/working_memory/test/test4.txt
+run_maiserver.bat
+src/plugins/test_plugin_pic/actions/pic_action_config.toml
+run_pet.bat
+
+/plugins/*
+!/plugins
+!/plugins/hello_world_plugin
+!/plugins/emoji_manage_plugin
+!/plugins/take_picture_plugin
+!/plugins/deep_think
+!/plugins/MaiBot_MCPBridgePlugin
+!/plugins/ChatFrequency/
+!/plugins/__init__.py
+
+config.toml
+
+interested_rates.txt
+MaiBot.code-workspace
+*.lock
+actionlint

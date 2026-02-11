@@ -1,8 +1,10 @@
 .git
 __pycache__
-*.pyc
 *.pyo
 *.pyd
 .DS_Store
 mongodb
 napcat
+docs/
+.github/
+# test

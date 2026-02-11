@@ -1,1 +1,0 @@
-mongod --dbpath="mongodb" --port 27017
