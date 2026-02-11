@@ -1,0 +1,292 @@
+# tts_voice_plugin - 自动生成的配置文件
+# 统一TTS语音合成插件，整合AI Voice、GSV2P、GPT-SoVITS、豆包语音、CosyVoice五种后端引擎，提供灵活的语音合成能力。
+
+# 插件基本配置
+[plugin]
+
+# 是否启用插件
+enabled = true
+
+# 配置文件版本
+config_version = "3.2.3"
+
+# 通用设置
+
+[general]
+
+# 默认TTS后端 (ai_voice/gsv2p/gpt_sovits/doubao/cosyvoice/comfyui)
+# 可选: ai_voice/gsv2p/gpt_sovits/doubao/cosyvoice/comfyui/comfyui_voiceclone/comfyui_customvoice
+default_backend = "comfyui_customvoice"
+
+# 请求超时时间（秒）
+timeout = 60
+
+# 最大文本长度（该限制会在调用LLM时注入到prompt中，让LLM直接生成符合长度的回复，而不是被动截断）
+max_text_length = 200
+
+# 是否使用replyer润色语音内容
+use_replyer_rewrite = true
+
+# 音频文件输出目录（支持相对路径和绝对路径，留空使用项目根目录）
+audio_output_dir = ""
+
+# 是否使用base64编码发送音频（备选方案）
+use_base64_audio = true
+
+# 是否分段发送语音（每句话单独发送一条语音，避免长语音播放问题）
+split_sentences = true
+
+# 分段发送时每条语音之间的延迟（秒）
+split_delay = 0.3
+
+# 自动分段启用阈值：文本长度小于该值时不分段（避免短句被切成多段）
+split_min_total_chars = 120
+
+# 句子最小长度：过短片段会合并到前一句（用于减少碎片段）
+split_min_sentence_chars = 6
+
+# 自动分段最大段数（避免刷屏式多段语音）。0 表示不限制。
+split_max_segments = 3
+
+# 自动分段打包目标长度（字符）。用于把多句合并成更少段。
+split_chunk_chars = 110
+
+# 是否发送错误提示消息（关闭后语音合成失败时不会发送错误信息给用户）
+send_error_messages = true
+
+# 组件启用控制
+
+[components]
+
+# 是否启用Action组件
+action_enabled = true
+
+# 是否启用Command组件
+command_enabled = true
+
+# 是否启用 instruct 调试命令组件（/tts_instruct）
+instruct_command_enabled = true
+
+# 概率控制配置
+
+[probability]
+
+# 是否启用概率控制
+enabled = true
+
+# 基础触发概率
+base_probability = 1
+
+# 关键词强制触发
+keyword_force_trigger = true
+
+# 强制触发关键词
+force_keywords = [
+    "一定要用语音",
+    "必须语音",
+    "语音回复我",
+    "务必用语音",
+]
+
+# AI Voice后端配置
+
+[ai_voice]
+
+# 默认音色（可选：小新、猴哥、四郎、东北老妹儿、广西大表哥、妲己、霸道总裁、酥心御姐、说书先生、憨憨小弟、憨厚老哥、吕布、元气少女、文艺少女、磁性大叔、邻家小妹、低沉男声、傲娇少女、爹系男友、暖心姐姐、温柔妹妹、书香少女）
+default_character = "邻家小妹"
+
+# GSV2P后端配置
+
+[gsv2p]
+
+# GSV2P API地址
+api_url = "https://gsv2p.acgnai.top/v1/audio/speech"
+
+# API认证Token
+api_token = ""
+
+# 默认音色
+default_voice = "原神-中文-派蒙_ZH"
+
+# API请求超时（秒）
+timeout = 149
+
+# TTS模型
+model = "tts-v4"
+
+# 音频格式
+response_format = "wav"
+
+# 语音速度
+speed = 1
+
+# GPT-SoVITS后端配置
+
+[gpt_sovits]
+
+# GPT-SoVITS服务地址
+server = "http://127.0.0.1:9880"
+
+# 语音风格配置
+
+# 豆包语音后端配置
+
+[[gpt_sovits.styles]]
+name = "default"
+refer_wav = "/Users/xenon/Downloads/seiun_tts/qingyun_tiankong_voice/s978ztt245c3jxms6apadwgna4e7hmb.mp3"
+prompt_text = "私にしてはがんばった方ではないでしょーか？"
+prompt_language = "ja"
+gpt_weights = "/Users/xenon/Downloads/GPT-SoVITS/GPT_weights_v4/seiun-e15.ckpt"
+sovits_weights = "/Users/xenon/Downloads/GPT-SoVITS/SoVITS_weights_v4/seiun_e2_s144_l32.pth"
+
+[[gpt_sovits.styles]]
+name = ""
+refer_wav = ""
+prompt_text = ""
+prompt_language = "zh"
+gpt_weights = ""
+sovits_weights = ""
+
+[doubao]
+
+# 豆包语音API地址
+api_url = "https://openspeech.bytedance.com/api/v3/tts/unidirectional"
+
+# 豆包APP ID
+app_id = ""
+
+# 豆包Access Key
+access_key = ""
+
+# 豆包Resource ID
+resource_id = "seed-tts-2.0"
+
+# 默认音色
+default_voice = "zh_female_vv_uranus_bigtts"
+
+# API请求超时（秒）
+timeout = 60
+
+# 音频格式
+audio_format = "wav"
+
+# 采样率
+sample_rate = 24000
+
+# 比特率
+bitrate = 128000
+
+# CosyVoice后端配置
+
+[cosyvoice]
+
+# Gradio API地址
+gradio_url = "https://funaudiollm-fun-cosyvoice3-0-5b.ms.show/"
+
+# 推理模式（3s极速复刻/自然语言控制）
+default_mode = "3s极速复刻"
+
+# 默认指令（用于自然语言控制模式）
+default_instruct = "You are a helpful assistant. 请用广东话表达。<|endofprompt|>"
+
+# 参考音频路径（用于3s极速复刻模式）
+reference_audio = ""
+
+# 提示文本（用于3s极速复刻模式）
+prompt_text = ""
+
+# API请求超时（秒）
+timeout = 300
+
+# 音频格式
+audio_format = "wav"
+
+[comfyui]
+server = "http://127.0.0.1:8188"
+# 必须是 ComfyUI 的 input 目录, backend 会把 refer_wav 复制进去, 再用 LoadAudio 读取
+input_dir = "/Users/xenon/Downloads/seiun_tts/ComfyUI/ComfyUI/input"
+timeout = 120
+audio_quality = "128k" # SaveAudioMP3: V0/128k/320k
+mlx_python = "/Users/xenon/Downloads/seiun_tts/qwen3-tts-apple-silicon/.venv/bin/python"
+mlx_cli = "/Users/xenon/Downloads/seiun_tts/qwen3-tts-apple-silicon/mlx_voice_clone_cli.py"
+default_style = "default"
+# Split comfyui backend into two convenient aliases:
+# - comfyui_voiceclone: only uses styles whose mode is voice_clone (or absent)
+# - comfyui_customvoice: only uses styles whose mode is custom_voice
+# These keys let you pick different defaults without duplicating comfyui.styles.
+voiceclone_default_style = "default"
+customvoice_default_style = "seiun"
+auto_instruct_enabled = true
+auto_instruct_max_chars = 320
+
+# 自动推断 instruct 时固定附加的“基调”(persona)。会作为 `基调=...;` 前缀插入。
+# 注意：值里不要包含 ';' 或 '='（backend 会做清洗，但建议从源头避免）。
+auto_instruct_base_tone = "女性约15-16岁,清澈透亮但慵懒的轻女高音,句尾元音随意拉长且略带鼻腔撒娇,咬字松弛像刚睡醒,可在慵懒与冷静锐利间切换,带戏谑亲和"
+
+# 可选：完整基调原文（保留备份，当前不启用）
+# auto_instruct_base_tone = """
+# 女性，外表约15-16岁，音色是清澈透亮却带有慵懒感的轻女高音（Light Soprano）。
+#
+# 嗓音轻盈飘逸，带有明显的“云朵般”的漂浮感，起初是漫不经心的拖沓语调，其特征在于句尾元音的随意拉长（Drawl）以及略带鼻腔共鸣的撒娇感。咬字呈现出一种仿佛刚睡醒般的松弛，甚至伴有刻意为之的含糊，像是一只在阳光下伸懒腰的猫。
+#
+# 随后，这种慵懒被一种狡黠的机敏所取代，声音在毫无干劲的叹息与看穿一切的通透感之间自如切换。在表现谋略或胜负欲的瞬间，音色会瞬间收紧，去除了所有的气声装饰与慵懒拖音，转为冷静、干练且直击要害的中高频。
+#
+# 表现风格既显得捉摸不透又带有戏谑的亲和力，伴随着轻巧的换气声和偶尔出现的、带有试探意味的升调尾音。仿佛在脱力系（Listless）的无害表象之下，潜藏着绝顶聪明的头脑与绝不让步的自尊。
+# """
+
+auto_instruct_prompt = """
+你是精通声学特征与戏剧表演的 AI 配音导演。你的任务是根据「待朗读文本」生成一行 TTS instruct（用于 Qwen3-TTS CustomVoice 的语音表演控制）。
+
+硬性要求：
+- 只输出一行（单行 KV），不要解释，不要引号/代码块，不要复述原文。
+- 必须同时包含以下字段，并用英文分号 ';' 分隔：情绪、强度、语速、停顿、表现
+- 输出格式固定为：情绪=<...>;强度=<...>;语速=<...>;停顿=<...>;表现=<...>
+- 语速可选：很慢/稍慢/正常/稍快/很快
+- 停顿可选：很少/自然/稍多/很多
+- 强度可选：很低/低/中/高/很高
+- 表现：用 3-6 个短提示词，使用逗号分隔（不要用分号），如：声压高,咬字重,重音强,尾音下压
+- 长度 <= {max_chars} 字
+
+强制增强规则（避免“生气但听起来不够生气”）：
+- 如果文本出现：非常/极其/真的/气死/怒/吼/滚/闭嘴/你再说一次 等强烈信号，情绪优先用「愤怒」，强度至少「高」，表现要包含“声压高/咬字重/重音强/尾音下压”中的至少 2 项。
+- 如果是嘲讽或冷笑式的怒气：情绪写「愤怒(冷)」或「愤怒+嘲讽」，表现包含“冷硬/压低/咬字利落/少气声”。
+
+文本语言: {lang}
+待朗读文本: {text}
+"""
+
+# 基础停顿（秒）。当 instruct 包含“停顿=...”时，会按 很少/自然/稍多/很多 做倍率缩放。
+pause_linebreak = 0.18
+period_pause = 0.22
+comma_pause = 0.1
+question_pause = 0.2
+hyphen_pause = 0.06
+
+[[comfyui.styles]]
+name = "default"
+refer_wav = "/Users/xenon/Downloads/seiun_tts/qingyun_tiankong_voice/default_ref_24k_mono.wav"
+prompt_text = "私にしてはがんばった方ではないでしょーか？"
+language = "Auto"
+model_choice = "1.7B"
+precision = "bf16"
+seed = 0
+max_new_tokens = 2048
+top_p = 0.8
+top_k = 20
+temperature = 1
+repetition_penalty = 1.05
+
+[[comfyui.styles]]
+name = "seiun"
+mode = "custom_voice"
+model_path = "/Users/xenon/Downloads/checkpoint-epoch-9"
+speaker = "seiun"
+instruct = "__AUTO__"
+speed = 1
+language = "Auto"
+seed = 0
+max_new_tokens = 2048
+top_p = 0.9
+top_k = 20
+temperature = 0.9
+repetition_penalty = 1.05
