@@ -786,9 +786,12 @@ class DefaultReplyer:
 
         if reply_message:
             user_id = reply_message.user_info.user_id
+            user_cardname = (reply_message.user_info.user_cardname or "").strip()
+            user_nickname = (reply_message.user_info.user_nickname or "").strip()
             person = Person(platform=platform, user_id=user_id)
             person_name = person.person_name or user_id
-            sender = person_name
+            # 群聊中优先使用群昵称，其次回退到已记录名称/QQ昵称/用户ID
+            sender = user_cardname or person_name or user_nickname or user_id
             target = reply_message.processed_plain_text
 
         target = replace_user_references(target, chat_stream.platform, replace_bot_name=True)

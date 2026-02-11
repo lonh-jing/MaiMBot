@@ -461,9 +461,13 @@ def _build_readable_messages_internal(
             continue
 
         person = Person(platform=platform, user_id=user_id)
-        # 根据 replace_bot_name 参数决定是否替换机器人名称
+        # 群聊优先使用群昵称；无群昵称时回退到已记录名称/QQ昵称/用户ID
         person_name = (
-            person.person_name or f"{user_nickname}" or (f"昵称：{user_cardname}" if user_cardname else "某人")
+            (user_cardname or "").strip()
+            or person.person_name
+            or (user_nickname or "").strip()
+            or str(user_id)
+            or "某人"
         )
         # 使用统一的 is_bot_self 函数判断是否是机器人自己（支持多平台，包括 WebUI）
         if replace_bot_name and is_bot_self(platform, user_id):
