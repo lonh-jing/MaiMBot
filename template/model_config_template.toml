@@ -156,6 +156,13 @@ max_tokens = 2048
 slow_threshold = 25.0
 selection_strategy = "random"           # 模型选择策略：balance（负载均衡）或 random（随机选择）
 
+[model_task_config.tts_instruct] # 生成 TTS 表演指令（情绪/语速/停顿）用的模型（独立于 replyer）
+model_list = ["qwen3-30b","qwen3-next-80b"]
+temperature = 0.2
+max_tokens = 128
+slow_threshold = 10.0
+selection_strategy = "random"
+
 [model_task_config.planner] #决策：负责决定麦麦该什么时候回复的模型
 model_list = ["siliconflow-deepseek-v3.2"]
 temperature = 0.3

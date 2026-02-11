@@ -1,0 +1,311 @@
+# TTS 语音合成插件
+
+MaiBot 的文本转语音插件，支持多种 TTS 后端。
+
+## 支持的后端
+
+| 后端 | 说明 | 适用场景 |
+|------|------|----------|
+| AI Voice | MaiCore 内置，无需配置 | 仅群聊 |
+| GSV2P | 云端 API，需要 Token | 群聊/私聊 |
+| GPT-SoVITS | 本地服务，需自行部署 | 群聊/私聊 |
+| 豆包语音 | 火山引擎云服务，高质量 | 群聊/私聊 |
+| CosyVoice | 阿里云 CosyVoice3，支持方言和声音克隆 | 群聊/私聊 |
+| ComfyUI | 本地 ComfyUI 工作流 API（MLX Qwen3-TTS VoiceClone） | 群聊/私聊 |
+
+## 安装
+
+```bash
+pip install aiohttp gradio_client
+```
+
+## 配置
+
+编辑 `config.toml`，设置默认后端：
+
+```toml
+[general]
+default_backend = "cosyvoice"  # 可选：ai_voice / gsv2p / gpt_sovits / doubao / cosyvoice / comfyui
+audio_output_dir = ""          # 音频输出目录，留空使用项目根目录
+use_base64_audio = false       # 是否使用base64发送（备选方案）
+split_sentences = true         # 是否分段发送语音（长文本逐句发送）
+split_delay = 0.3              # 分段发送间隔时间（秒）
+send_error_messages = true     # 是否发送错误提示消息（false=静默失败）
+```
+
+### Docker环境配置说明
+
+**问题：** Docker环境中可能遇到音频上传失败或文件路径识别错误（如`识别URL失败`）
+
+**解决方案（按推荐顺序）：**
+
+#### 方案1：使用相对路径（推荐）
+
+```toml
+[general]
+audio_output_dir = ""  # 留空，默认使用项目根目录
+```
+
+音频文件将保存在项目根目录，OneBot/NapCat可以正确识别相对路径。
+
+#### 方案2：自定义输出目录
+
+```toml
+[general]
+audio_output_dir = "data/tts_audio"  # 相对路径，相对于项目根目录
+# 或
+audio_output_dir = "/app/data/audio" # 绝对路径
+```
+
+#### 方案3：使用base64编码（备选）
+
+如果路径方案都不生效，可启用base64发送：
+
+```toml
+[general]
+use_base64_audio = true  # 使用base64编码发送（会增加约33%数据大小）
+```
+
+### 豆包语音配置
+
+```toml
+[doubao]
+app_id = "你的APP_ID"
+access_key = "你的ACCESS_KEY"
+resource_id = "seed-tts-2.0"
+default_voice = "zh_female_vv_uranus_bigtts"
+```
+
+**预置音色：**
+
+| 音色名称 | voice_type |
+|----------|------------|
+| vivi 2.0 | zh_female_vv_uranus_bigtts |
+| 大壹 | zh_male_dayi_saturn_bigtts |
+| 黑猫侦探社咪仔 | zh_female_mizai_saturn_bigtts |
+
+**复刻音色：** 将 `resource_id` 改为 `seed-icl-2.0`，`default_voice` 填音色 ID（如 `S_xxxxxx`）
+
+凭证获取：[火山引擎控制台](https://console.volcengine.com/speech/service/8)
+
+### GSV2P 配置
+
+```toml
+[gsv2p]
+api_token = "你的Token"
+default_voice = "原神-中文-派蒙_ZH"
+```
+
+Token 获取：[https://tts.acgnai.top](https://tts.acgnai.top)
+
+### AI Voice 配置
+
+```toml
+[ai_voice]
+default_character = "温柔妹妹"
+```
+
+可用音色：小新、猴哥、妲己、酥心御姐、温柔妹妹、邻家小妹 等 22 种
+
+### GPT-SoVITS 配置
+
+**支持两种配置格式：**
+
+#### 格式1：数组格式（推荐，WebUI 友好）
+
+```toml
+[gpt_sovits]
+server = "http://127.0.0.1:9880"
+
+[[gpt_sovits.styles]]
+name = "default"
+refer_wav = "/path/to/reference.wav"
+prompt_text = "参考文本"
+prompt_language = "zh"
+gpt_weights = "/path/to/model.ckpt"      # 可选：动态模型切换
+sovits_weights = "/path/to/model.pth"    # 可选：动态模型切换
+
+[[gpt_sovits.styles]]
+name = "happy"
+refer_wav = "/path/to/happy.wav"
+prompt_text = "开心的参考文本"
+prompt_language = "zh"
+```
+
+#### 格式2：字典格式（兼容旧版）
+
+```toml
+[gpt_sovits]
+server = "http://127.0.0.1:9880"
+
+[gpt_sovits.styles.default]
+refer_wav = "/path/to/reference.wav"
+prompt_text = "参考文本"
+prompt_language = "zh"
+gpt_weights = "/path/to/model.ckpt"
+sovits_weights = "/path/to/model.pth"
+```
+
+> **提示：** 插件会自动识别并兼容两种格式，推荐使用数组格式以获得更好的 WebUI 支持。
+
+### CosyVoice 配置
+
+```toml
+[cosyvoice]
+gradio_url = "https://funaudiollm-fun-cosyvoice3-0-5b.ms.show/"
+default_mode = "3s极速复刻"           # 或 "自然语言控制"
+default_instruct = "You are a helpful assistant. 请用广东话表达。<|endofprompt|>" # 只有自然语言控制模式才会生效，3s极速复刻模式下不生效
+reference_audio = "/path/to/ref.wav"  # 参考音频路径
+prompt_text = "参考音频对应的文本"      # 参考音频的对应文本
+timeout = 300                          # API超时（秒）
+```
+
+**支持的方言/情感/语速：**
+
+| 类型 | 可用选项 |
+|------|----------|
+| 方言 | 广东话、东北话、四川话、上海话、闽南话、山东话、陕西话、湖南话等17种 |
+| 情感 | 开心、伤心、生气 |
+| 语速 | 慢速、快速 |
+| 音量 | 大声、小声 |
+| 特殊风格 | 小猪佩奇、机器人 |
+
+**推理模式：**
+- `3s极速复刻`：需要提供参考音频进行声音克隆
+- `自然语言控制`：通过指令控制方言、情感、语速等
+
+## 使用方法
+
+### 命令触发
+
+```
+/tts 你好世界                    # 使用默认后端
+/tts 今天天气不错 小新            # 指定音色
+/gsv2p 你好世界                  # 使用 GSV2P
+/doubao 你好世界                 # 使用豆包
+/cosyvoice 你好世界 四川话        # 使用 CosyVoice，四川话
+/comfyui 你好世界 -v default     # 使用 ComfyUI 本地工作流（MLX VoiceClone）
+```
+
+## ComfyUI 后端配置
+
+该后端通过 ComfyUI 的 HTTP API 执行工作流（`/prompt` -> `/history` -> `/view`），并用 `LoadAudio` 从 ComfyUI 的 `input` 目录读取参考音频。
+
+```toml
+[comfyui]
+server = "http://127.0.0.1:8188"
+input_dir = "/Users/xenon/Downloads/seiun_tts/ComfyUI/ComfyUI/input"
+timeout = 120
+audio_quality = "128k" # SaveAudioMP3: V0/128k/320k
+mlx_python = "/Users/xenon/Downloads/seiun_tts/qwen3-tts-apple-silicon/.venv/bin/python"
+mlx_cli = "/Users/xenon/Downloads/seiun_tts/qwen3-tts-apple-silicon/mlx_voice_clone_cli.py"
+default_style = "default"
+
+[[comfyui.styles]]
+name = "default"
+refer_wav = "/path/to/ref.wav"
+prompt_text = "参考音频逐字稿"
+language = "Auto" # 可选: Auto/Chinese/English/Japanese...
+model_choice = "1.7B"
+precision = "bf16"
+seed = 0
+max_new_tokens = 2048
+top_p = 0.8
+top_k = 20
+temperature = 1.0
+repetition_penalty = 1.05
+```
+
+### 自动触发
+
+LLM 判断需要语音回复时会自动触发，可通过概率控制：
+
+```toml
+[probability]
+enabled = false          # 默认关闭，每次都触发语音
+base_probability = 0.3   # 启用时 30% 概率触发
+```
+
+### 智能分割插件支持
+
+本插件已适配智能分割插件，支持使用 `|||SPLIT|||` 分隔符进行精确分段：
+
+- **优先级**：智能分割标记 > 自动句子分割 > 单句发送
+- **使用方式**：智能分割插件会在适当位置插入 `|||SPLIT|||` 标记，本插件自动识别并按标记分段发送
+- **示例**：`今天天气不错|||SPLIT|||适合出去玩|||SPLIT|||你觉得呢` 会分成三段语音依次发送
+
+## 项目结构
+
+```
+tts_voice_plugin/
+├── plugin.py          # 插件入口
+├── config.toml        # 配置文件
+├── backends/          # 后端实现
+│   ├── ai_voice.py
+│   ├── gsv2p.py
+│   ├── gpt_sovits.py
+│   ├── doubao.py
+│   └── cosyvoice.py
+└── utils/             # 工具函数
+```
+
+## 常见问题
+
+**Q: Docker环境中提示"文件处理失败 识别URL失败"？**
+A: 留空 `audio_output_dir` 配置项，插件将使用项目根目录保存音频（相对路径）。如仍有问题，可设置 `use_base64_audio = true` 使用base64编码发送。
+
+**Q: AI Voice 提示"仅支持群聊"？**
+A: AI Voice 只能在群聊使用，私聊会自动切换到其他后端。
+
+**Q: 豆包语音怎么获取凭证？**
+A: 登录火山引擎控制台，开通语音合成服务获取。
+
+**Q: 文本太长被截断？**
+A: 修改 `config.toml` 中 `max_text_length = 1000`
+
+**Q: 语音合成失败时不想让Bot发送错误消息？**
+A: 设置 `send_error_messages = false`，语音合成失败时将静默处理，不向用户发送错误提示。
+
+## 更新日志
+
+### v3.2.3
+- 修复豆包语音 WAV 流式响应合并问题（正确处理 LIST/INFO 元数据块和多 header 情况）
+- 默认后端改为 CosyVoice（更稳定的声音克隆体验）
+- 默认关闭概率控制（每次触发都生成语音，更可预期的行为）
+- 优化 LLM 长度约束提示（利用"近因效应"提高遵守率）
+- 优化 action 记录格式，帮助 planner 避免重复执行
+- GSV2P/豆包音频格式默认改为 WAV（更好的兼容性）
+- CosyVoice 默认模式改为 3s 极速复刻（更快响应）
+- 更新默认超时配置（CosyVoice 300s, GSV2P 120s）
+
+### v3.2.2
+- 适配智能分割插件（支持 `|||SPLIT|||` 分隔符精确分段）
+- GPT-SoVITS 支持数组格式配置（WebUI 友好，向后兼容字典格式）
+- 修复豆包语音音色信息显示乱码问题
+- 优化配置文件注释，更简洁清晰
+- 优化分段发送逻辑优先级（智能分割 > 自动分割 > 单句）
+- 禁用 Python 字节码生成（保持目录干净）
+- 添加插件 ID 标识字段
+
+### v3.2.1
+- 新增 `send_error_messages` 配置项（可选择关闭错误提示消息）
+- 统一错误消息处理逻辑（通过 `_send_error` 方法）
+
+### v3.2.0
+- 新增 CosyVoice 后端（阿里云 ModelScope，支持 17 种方言、3 秒声音克隆）
+- 新增分段发送功能（长文本自动分割逐句发送）
+- GPT-SoVITS 支持动态模型切换（在风格配置中指定 gpt_weights/sovits_weights）
+- GSV2P 后端新增重试机制（5 次重试，3 秒间隔）
+- 新增 `/cosyvoice` 命令
+- 新增 gradio_client 依赖
+
+### v3.1.0
+- 新增豆包语音后端（火山引擎云服务）
+- 重构为模块化架构
+- HTTP Session 复用优化
+
+## 信息
+
+- 版本：3.2.3
+- 作者：靓仔
+- 许可：AGPL-v3.0
